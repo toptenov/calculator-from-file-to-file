@@ -1,5 +1,5 @@
-import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -7,14 +7,16 @@ public class Main {
     public static void main(String[] args) throws IOException {
         FileReader fr = new FileReader("file.txt");
         Scanner sc = new Scanner(fr);
+        FileWriter fw = new FileWriter("output.txt");
         String a = sc.next(), sign = sc.next(), b = sc.next();
         try {
-            System.out.println(calculate(a, sign, b));
+            fw.write(Double.toString(calculate(a, sign, b)));
         } catch (MyZeroException | MyOperationException | MyNotNumberException e) {
             System.out.println(e.getMessage());
         } finally {
             fr.close();
             sc.close();
+            fw.close();
         }
     }
 
