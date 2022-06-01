@@ -5,19 +5,24 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
+        FileWriter fw = new FileWriter("output.txt");
         FileReader fr = new FileReader("file.txt");
         Scanner sc = new Scanner(fr);
-        FileWriter fw = new FileWriter("output.txt");
-        String a = sc.next(), sign = sc.next(), b = sc.next();
-        try {
-            fw.write(Double.toString(calculate(a, sign, b)));
-        } catch (MyZeroException | MyOperationException | MyNotNumberException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            fr.close();
-            sc.close();
-            fw.close();
+        String a, sign, b, result;
+        while (sc.hasNextLine()) {
+            a = sc.next();
+            sign = sc.next();
+            b = sc.nextLine().strip();
+            try {
+                result = Double.toString(calculate(a, sign, b));
+                fw.write(a + " " + sign + " " + b + " = " + result + "\n");
+            } catch (MyZeroException | MyOperationException | MyNotNumberException e) {
+                fw.write(a + " " + sign + " " + b + " = " + e.getMessage() + "\n");
+            }
         }
+        fr.close();
+        sc.close();
+        fw.close();
     }
 
     public static double calculate(String a, String sign, String b) throws
